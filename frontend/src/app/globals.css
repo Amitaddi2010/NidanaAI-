@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: hsl(222.2 47.4% 11.2%);
+  --color-brand-accent: hsl(199 89% 48%);
+  --color-brand-success: hsl(142.1 70.6% 45.3%);
+  --color-brand-warning: hsl(38 92% 50%);
+  --color-brand-danger: hsl(0 84.2% 60.2%);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2.5rem;
+}
+
+:root {
+  --background: hsl(210 40% 98%);
+  --foreground: hsl(222.2 84% 4.9%);
+  
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(222.2 84% 4.9%);
+  
+  --primary: hsl(222.2 47.4% 11.2%);
+  --primary-foreground: hsl(210 40% 98%);
+  
+  --secondary: hsl(210 40% 96.1%);
+  --secondary-foreground: hsl(222.2 47.4% 11.2%);
+  
+  --muted: hsl(210 40% 96.1%);
+  --muted-foreground: hsl(215.4 16.3% 46.9%);
+  
+  --accent: hsl(210 40% 96.1%);
+  --accent-foreground: hsl(222.2 47.4% 11.2%);
+  
+  --border: hsl(214.3 31.8% 91.4%);
+  --input: hsl(214.3 31.8% 91.4%);
+  --ring: hsl(222.2 84% 4.9%);
+  
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: hsl(240 5% 4%);
+  --foreground: hsl(210 40% 98%);
+  
+  --card: hsl(240 6% 7%);
+  --card-foreground: hsl(210 40% 98%);
+  
+  --primary: hsl(210 40% 98%);
+  --primary-foreground: hsl(240 5% 4%);
+  
+  --secondary: hsl(240 5% 15%);
+  --secondary-foreground: hsl(210 40% 98%);
+  
+  --muted: hsl(240 5% 15%);
+  --muted-foreground: hsl(240 5% 65%);
+  
+  --accent: hsl(240 5% 15%);
+  --accent-foreground: hsl(210 40% 98%);
+  
+  --border: hsl(240 5% 12%);
+  --input: hsl(240 5% 15%);
+  --ring: hsl(212.7 26.8% 83.9%);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    @apply transition-colors duration-300;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Outfit', 'Inter', sans-serif;
+    @apply antialiased overflow-x-hidden;
+  }
+}
+
+.glass {
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.4);
+}
+
+.dark .glass {
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+.liquid-bg {
+  background: 
+    radial-gradient(circle at 10% 20%, hsla(199, 89%, 48%, 0.15) 0px, transparent 40%),
+    radial-gradient(circle at 90% 80%, hsla(43, 96%, 56%, 0.1) 0px, transparent 40%),
+    radial-gradient(circle at 80% 10%, hsla(142, 70%, 45%, 0.1) 0px, transparent 40%);
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.shadow-glow {
+  box-shadow: 0 0 20px -5px var(--color-brand-accent);
+}
+
+/* --- MEDICAL GRADE PDF EXPORT RULES --- */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 20mm;
+  }
+  
+  body {
+    background: white !important;
+    background-color: white !important;
+    color: black !important;
+    font-size: 11pt !important;
+  }
+  
+  /* Strip all UI chrome, gradients, and shadows */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    background: transparent !important;
+    color: #000 !important;
+    border-color: #ddd !important;
+  }
+  
+  /* Ensure structural borders remain for readability */
+  .border, .border-border, .border-b {
+    border-width: 1px !important;
+    border-color: #000 !important;
+  }
+  
+  /* Hide interactive elements and web-only UI */
+  .print\:hidden, nav, button, a[href^="/"] {
+    display: none !important;
+  }
+  
+  /* Force clean layouts */
+  .bg-card {
+    background-color: white !important;
+    border: 1px solid #000 !important;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    break-after: avoid;
+    color: black !important;
+  }
+  
+  /* Force checkmarks/indicators to be visible */
+  .bg-brand-accent, .bg-brand-success, .bg-brand-warning, .bg-brand-danger {
+    background-color: #e5e5e5 !important;
+    color: black !important;
+    border: 1px solid black !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
