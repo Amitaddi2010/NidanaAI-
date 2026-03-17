@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: nidana-ai-backend
+    env: docker
+    region: oregon 
+    plan: free # Can be updated to starter or higher if needed
+    buildCommand: "docker build -t nidana-ai-backend ."
+    startCommand: "docker run -p 8000:8000 nidana-ai-backend"
+    dockerfilePath: ./backend/Dockerfile
+    rootDir: ./backend
+    envVars:
+      - key: PORT
+        value: 8000
+    autoDeploy: true
