@@ -15,10 +15,12 @@ app = FastAPI(title="NidanaAI API", version="0.1.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "*",
+        "http://localhost:3000",
+        "http://localhost:3001",
         "https://nidana-ai-ndey.vercel.app",
-        "https://nidanaai.vercel.app"
+        "https://nidanaai.vercel.app",
     ],
+    allow_origin_regex="https://.*\.vercel\.app", # Support Vercel preview URLs
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
