@@ -36,7 +36,11 @@ export default function Dashboard() {
           try { providerId = JSON.parse(stored).name; } catch(e) {}
         }
         
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+        const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+        const apiUrl = (base.startsWith('http') && !base.includes('/api/v')) 
+           ? (base.endsWith('/') ? `${base}api/v1` : `${base}/api/v1`)
+           : base;
+
         const statsRes = await fetch(`${apiUrl}/stats?provider_id=${encodeURIComponent(providerId)}`);
         if (!statsRes.ok) throw new Error("API Offline");
         const statsData = await statsRes.json();

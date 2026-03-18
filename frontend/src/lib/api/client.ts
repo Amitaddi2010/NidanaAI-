@@ -1,4 +1,13 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+const getApiUrl = () => {
+  const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+  // Ensure we have the /api/v1 suffix if it's a domain-only URL from environment
+  if (base.startsWith('http') && !base.includes('/api/v')) {
+    return base.endsWith('/') ? `${base}api/v1` : `${base}/api/v1`;
+  }
+  return base;
+};
+
+const API_URL = getApiUrl();
 
 const getProviderId = () => {
   if (typeof window !== 'undefined') {
