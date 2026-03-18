@@ -39,7 +39,8 @@ class RAGService:
     def embed_model(self):
         if self._embed_model is None:
             from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-            self._embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-large-en-v1.5")
+            # Using bge-small instead of bge-large to fit within Render's Free Tier RAM (512MB)
+            self._embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
         return self._embed_model
 
     @property
