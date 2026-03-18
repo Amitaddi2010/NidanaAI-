@@ -11,6 +11,19 @@ import logging
 
 app = FastAPI(title="NidanaAI API", version="0.1.0")
 
+# CORS Configuration - MUST be defined early
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "*",
+        "https://nidana-ai-ndey.vercel.app",
+        "https://nidanaai.vercel.app"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.on_event("startup")
 def on_startup():
     init_db()
@@ -34,18 +47,6 @@ async def get_dashboard_stats(provider_id: Optional[str] = None, db: Session = D
         "total_cases": total_cases,
         "system_confidence": "94%"
     }
-
-# CORS Configuration
-# Standard origins for local development environments
-# CORS Configuration
-# Allow all origins for seamless development and testing
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 @app.get("/")
 async def root():
