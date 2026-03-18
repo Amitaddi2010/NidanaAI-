@@ -29,8 +29,20 @@ app.add_middleware(
 @app.on_event("startup")
 def on_startup():
     init_db()
+    # Pre-load embedding model to avoid OOM spike during first request
+    try:
+        from app.services.diagnosis_service import DiagnosisService
+        svc = DiagnosisService()
+        _ = svc.rag.embed_model
+        print("Embedding model pre-loaded successfully.")
+    except Exception as e:
+        print(f"Embedding model pre-load failed: {e}")
 
 from typing import Optional
+
+@app.get("/api/v1/ping")
+async def ping():
+    return {"status": "online"}
 
 # Stats Endpoint
 @app.get("/api/v1/stats")

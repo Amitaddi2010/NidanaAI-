@@ -75,5 +75,10 @@ export const apiClient = {
       headers: { 'Content-Type': 'application/json' },
     });
     return res.json();
+  },
+
+  async ping() {
+    const res = await fetch(`${API_URL}/ping`);
+    return res.json();
   }
 };
